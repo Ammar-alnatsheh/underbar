@@ -550,5 +550,14 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    let memory = {};
+    return function() {
+      let time = new Date() + wait;
+      let name = JSON.stringify(func);
+      if (!memory[name] || memory[name] < time) {
+        memory[name] = time;
+        func.call(arguments);
+      }
+    }
   };
 }());
